@@ -5,6 +5,7 @@ import csv
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 from sklearn.metrics import accuracy_score
 from sklearn import svm
+from sklearn.linear_model import LogisticRegressionCV
 print_list = []
 input_csv=open("input3.csv","r")
 # Getting the input csv text content
@@ -53,5 +54,18 @@ svm_rbf_grd_srch_clf.fit(X_train, y_train)
 svm_rbf_train_scr = svm_rbf_grd_srch_clf.best_score_
 svm_rbf_test_scr = accuracy_score(y_test, svm_rbf_grd_srch_clf.predict(X_test))
 print_list.append(['svm_rbf', svm_rbf_train_scr, svm_rbf_test_scr])
+
+# Logistic Regression
+
+LR_best_scr = 0
+C_values_for_L_R = [0.1, 0.5, 1, 5, 10, 50, 100]
+LR_clf = LogisticRegressionCV(Cs=C_values_for_L_R, cv=5)
+LR_clf.fit(X_train, y_train)
+LR_train_scrs = LR_clf.scores_
+for key,scoresList in LR_train_scrs.items():
+    for scores in scoresList:
+        LR_best_scr = max(scores) if max(scores) > LR_best_scr else LR_best_scr
+LR_test_scr = accuracy_score(y_test, LR_clf.predict(X_test))
+print_list.append(['logistic', LR_best_scr, LR_test_scr])
 
 print(print_list)
