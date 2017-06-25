@@ -1,7 +1,7 @@
-svm_linear,[best_score],[test_score]
-svm_polynomial,[best_score],[test_score]
-svm_rbf,[best_score],[test_score]
-logistic,[best_score],[test_score]
-knn,[best_score],[test_score]
-decision_tree,[best_score],[test_score]
-random_forest,[best_score],[test_score]
+svm_linear,0.59,0.59
+svm_polynomial,0.683333333333,0.755
+svm_rbf,0.96,0.895
+logistic,0.593220338983,0.59
+knn,0.95,0.925
+decision_tree,0.966666666667,1.0
+random_forest,0.966666666667,0.985

@@ -6,6 +6,9 @@ from sklearn.model_selection import train_test_split, cross_val_score, GridSearc
 from sklearn.metrics import accuracy_score
 from sklearn import svm
 from sklearn.linear_model import LogisticRegressionCV
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 print_list = []
 input_csv=open("input3.csv","r")
 # Getting the input csv text content
@@ -68,4 +71,44 @@ for key,scoresList in LR_train_scrs.items():
 LR_test_scr = accuracy_score(y_test, LR_clf.predict(X_test))
 print_list.append(['logistic', LR_best_scr, LR_test_scr])
 
-print(print_list)
+# KNN Classifier
+
+n_neighbors = list(range(1,51))
+leaf_size = list(range(5,61,5))
+knn_clf = KNeighborsClassifier()
+tuned_parameters = [{'n_neighbors': n_neighbors, 'leaf_size': leaf_size}]
+knn_grd_srch_clf = GridSearchCV(knn_clf, tuned_parameters, cv=5, scoring='accuracy')
+knn_grd_srch_clf.fit(X_train, y_train)
+knn_train_scr = knn_grd_srch_clf.best_score_
+knn_test_scr = accuracy_score(y_test, knn_grd_srch_clf.predict(X_test))
+print_list.append(['knn', knn_train_scr, knn_test_scr])
+
+# Decision Tree Classifier
+
+max_depth = list(range(1,51))
+min_samples_split = list(range(2,11))
+dcsn_tree_clf = DecisionTreeClassifier()
+tuned_parameters = [{'max_depth': max_depth, 'min_samples_split': min_samples_split}]
+dcsn_tree_grd_srch_clf = GridSearchCV(dcsn_tree_clf, tuned_parameters, cv=5, scoring='accuracy')
+dcsn_tree_grd_srch_clf.fit(X_train, y_train)
+dcsn_tree_train_scr = dcsn_tree_grd_srch_clf.best_score_
+dcsn_tree_test_scr = accuracy_score(y_test, dcsn_tree_grd_srch_clf.predict(X_test))
+print_list.append(['decision_tree', dcsn_tree_train_scr, dcsn_tree_test_scr])
+
+# Random Forest Classifier
+
+rndm_frst_clf = RandomForestClassifier()
+tuned_parameters = [{'max_depth': max_depth, 'min_samples_split': min_samples_split}]
+rndm_frst_grd_srch_clf = GridSearchCV(rndm_frst_clf, tuned_parameters, cv=5, scoring='accuracy')
+rndm_frst_grd_srch_clf.fit(X_train, y_train)
+rndm_frst_train_scr = rndm_frst_grd_srch_clf.best_score_
+rndm_frst_test_scr = accuracy_score(y_test, rndm_frst_grd_srch_clf.predict(X_test))
+print_list.append(['random_forest', rndm_frst_train_scr, rndm_frst_test_scr])
+
+input_csv.close()
+# Writing the Print list to output csv file.
+output_csv=open("output3.csv","w")
+for el in print_list:
+    output_csv.write(",".join([str(ind) for ind in el]))
+    output_csv.write("\n")
+output_csv.close()
