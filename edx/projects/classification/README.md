@@ -6,3 +6,5 @@ Classification based on different classifiers from sklearn
 5. k-Nearest Neighbors
 6. Decision Trees
 7. Random Forest
+
+Read the [all algorithms](https://github.com/pktippa/ai-training/blob/master/machine-learning/all_algo.md) for more information
