@@ -21,3 +21,7 @@ $ pip install -r requirements.txt
 ```sh
 $ jupyter notebook
 ```
+
+## Steps Followed
+
+Have a look at the [steps](steps_followed.md) followed for solving the problem
